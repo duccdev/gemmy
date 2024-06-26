@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gemmy/globals.dart';
+import 'package:gemmy/pages/setup.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Globals.init();
   runApp(const Gemmy());
 }
 
@@ -11,17 +15,16 @@ class Gemmy extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gemmy',
-      theme: ThemeData(fontFamily: 'NotoSans'),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'Hi mom!',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+      theme: ThemeData(
+        fontFamily: 'NotoSans',
+        scaffoldBackgroundColor: const Color(0xFF131314),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.white,
+          selectionColor: Color(0xFF498BD5),
         ),
+      ),
+      home: const Scaffold(
+        body: SetupPage(),
       ),
     );
   }
