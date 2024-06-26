@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gemmy/types/message.dart';
 import 'package:gemmy/widgets/ez/text.dart';
@@ -51,10 +53,23 @@ class EzMessage extends StatelessWidget {
                       color: Colors.blue,
                       fontSize: 20,
                     )
-                  : EzText(
-                      message.content.trim(),
-                      fontSize: 20,
-                    ),
+                  : MarkdownBody(
+                      selectable: true,
+                      data: message.content.trim(),
+                      styleSheet: MarkdownStyleSheet(
+                        p: const TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      extensionSet: md.ExtensionSet(
+                        md.ExtensionSet.gitHubFlavored.blockSyntaxes,
+                        <md.InlineSyntax>[
+                          md.EmojiSyntax(),
+                          ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes
+                        ],
+                      ),
+                    )
             ],
           ),
         ),
