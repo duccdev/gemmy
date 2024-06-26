@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "gemmy" "\0"
+            VALUE "CompanyName", "ducc" "\0"
+            VALUE "FileDescription", "Gemmy" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "gemmy" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "gemmy.exe" "\0"
-            VALUE "ProductName", "gemmy" "\0"
+            VALUE "InternalName", "Gemmy" "\0"
+            VALUE "LegalCopyright", "Refer to MIT License" "\0"
+            VALUE "OriginalFilename", "Gemmy.exe" "\0"
+            VALUE "ProductName", "Gemmy" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
