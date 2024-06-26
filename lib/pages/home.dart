@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:gemmy/globals.dart';
 import 'package:gemmy/types/message.dart';
 import 'package:gemmy/utils/pad_widgets.dart';
 import 'package:gemmy/widgets/ez/message.dart';
-import 'package:gemmy/widgets/ez/text.dart';
+import 'package:gemmy/widgets/ez/textfield.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,10 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Message> _msgs = [
-    const Message(role: 'user', content: 'ass'),
-    const Message(role: 'assistant', content: 'bro wtf :skull:')
-  ];
+  ChatSession _chat = Globals.model!.startChat();
+  List<Message> _msgs = List.empty(growable: true);
+  bool _chatInputEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,29 @@ class _HomePageState extends State<HomePage> {
               _msgs.map((msg) => EzMessage(message: msg)).toList(),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 8),
-            child: EzText('arse'),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: EzTextField(
+              enabled: _chatInputEnabled,
+              hintText: 'Enter a prompt here',
+              onSubmitted: (text) async {
+                setState(() {
+                  _chatInputEnabled = false;
+                  _msgs.add(Message(role: 'user', content: text));
+                  _msgs.add(Message(role: 'assistant', content: ''));
+                });
+
+                final response = _chat.sendMessageStream(Content.text(text));
+                await for (final chunk in response) {
+                  setState(() => _msgs.last.content =
+                      _msgs.last.content.trim().isEmpty
+                          ? chunk.text!
+                          : _msgs.last.content + chunk.text!);
+                }
+
+                setState(() => _chatInputEnabled = true);
+              },
+            ),
           ),
         ],
       ),

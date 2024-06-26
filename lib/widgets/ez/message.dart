@@ -46,10 +46,16 @@ class EzMessage extends StatelessWidget {
               children: [
                 EzText(message.role == 'assistant' ? 'Gemini' : 'You',
                     fontSize: 20, bold: true),
-                EzText(
-                  message.content,
-                  fontSize: 20,
-                ),
+                message.content.trim().isEmpty
+                    ? const EzText(
+                        'Generating...',
+                        color: Colors.blue,
+                        fontSize: 20,
+                      )
+                    : EzText(
+                        message.content,
+                        fontSize: 20,
+                      ),
               ],
             ),
           ),

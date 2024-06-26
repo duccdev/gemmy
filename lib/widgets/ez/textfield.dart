@@ -106,8 +106,11 @@ class _EzTextFieldState extends State<EzTextField> {
                     ),
                     onPressed: _sendButtonDisabled
                         ? null
-                        : () => (widget.onSubmitted ??
-                            (String text) {})(_controller.text),
+                        : () {
+                            if (widget.onSubmitted == null) return;
+                            widget.onSubmitted!(_controller.text);
+                            _controller.text = '';
+                          },
                   ),
                 ),
         ),
