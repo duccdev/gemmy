@@ -28,6 +28,12 @@ class Gemmy extends StatelessWidget {
           cursorColor: Colors.white,
           selectionColor: Color(0xFF498BD5),
         ),
+        scrollbarTheme: ScrollbarThemeData(
+          interactive: true,
+          radius: const Radius.circular(6),
+          thumbColor: WidgetStateProperty.all(const Color(0xFF858585)),
+          thickness: WidgetStateProperty.all(12),
+        ),
       ),
     );
   }
