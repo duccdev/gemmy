@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gemmy/globals.dart';
+import 'package:gemmy/pages/home.dart';
 import 'package:gemmy/pages/setup.dart';
 
 void main() async {
@@ -15,6 +16,9 @@ class Gemmy extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gemmy',
+      routes: {
+        '/': (context) => const HomePage(),
+      },
       theme: ThemeData(
         fontFamily: 'NotoSans',
         scaffoldBackgroundColor: const Color(0xFF131314),
@@ -24,8 +28,17 @@ class Gemmy extends StatelessWidget {
         ),
       ),
       home: const Scaffold(
-        body: SetupPage(),
+        body: Entry(),
       ),
     );
+  }
+}
+
+class Entry extends StatelessWidget {
+  const Entry({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Globals.apiKey != null ? const HomePage() : const SetupPage();
   }
 }

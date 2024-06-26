@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:gemmy/globals.dart';
 import 'package:gemmy/utils/pad_widgets.dart';
@@ -65,14 +67,14 @@ class _SetupPageState extends State<SetupPage> {
                           await Globals.model!
                               .generateContent([Content.text('Hi!')]);
 
-                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: EzText('Connected!'),
                             ),
                           );
+
+                          Navigator.of(context).pushReplacementNamed('/');
                         } catch (_) {
-                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: EzText('Failed!'),
