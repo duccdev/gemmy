@@ -14,8 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ChatSession _chat = Globals.model!.startChat();
-  List<Message> _msgs = List.empty(growable: true);
+  final ChatSession _chat = Globals.model!.startChat();
+  final List<Message> _msgs = List.empty(growable: true);
   bool _chatInputEnabled = true;
 
   @override
@@ -38,8 +38,10 @@ class _HomePageState extends State<HomePage> {
               onSubmitted: (text) async {
                 setState(() {
                   _chatInputEnabled = false;
-                  _msgs.add(Message(role: 'user', content: text));
-                  _msgs.add(Message(role: 'assistant', content: ''));
+                  _msgs.add(
+                      Message(role: 'user', content: text, generating: false));
+                  _msgs.add(Message(
+                      role: 'assistant', content: '', generating: true));
                 });
 
                 final response = _chat.sendMessageStream(Content.text(text));
@@ -50,7 +52,10 @@ class _HomePageState extends State<HomePage> {
                           : _msgs.last.content + chunk.text!);
                 }
 
-                setState(() => _chatInputEnabled = true);
+                setState(() {
+                  _msgs.last.generating = false;
+                  _chatInputEnabled = true;
+                });
               },
             ),
           ),

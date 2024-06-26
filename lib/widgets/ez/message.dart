@@ -46,31 +46,10 @@ class EzMessage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  EzText(
-                    message.role == 'assistant' ? 'Gemini' : 'You',
-                    fontSize: 20,
-                    bold: true,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: IconButton(
-                      onPressed: () {
-                        Clipboard.setData(ClipboardData(text: message.content));
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: EzText('Copied to clipboard!')),
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.copy,
-                        size: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
+              EzText(
+                message.role == 'assistant' ? 'Gemini' : 'You',
+                fontSize: 20,
+                bold: true,
               ),
               message.content.trim().isEmpty
                   ? const EzText(
@@ -104,7 +83,31 @@ class EzMessage extends StatelessWidget {
                           ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
                         ],
                       ),
+                    ),
+              message.role == 'assistant' && !message.generating
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Clipboard.setData(
+                                  ClipboardData(text: message.content));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: EzText('Copied to clipboard!')),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.copy,
+                              size: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     )
+                  : Container()
             ],
           ),
         ),
