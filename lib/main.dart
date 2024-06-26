@@ -17,8 +17,10 @@ class Gemmy extends StatelessWidget {
     return MaterialApp(
       title: 'Gemmy',
       routes: {
-        '/': (context) => const HomePage(),
+        '/entry': (context) => const Entry(),
+        '/home': (context) => const HomePage(),
       },
+      initialRoute: '/entry',
       theme: ThemeData(
         fontFamily: 'NotoSans',
         scaffoldBackgroundColor: const Color(0xFF131314),
@@ -26,9 +28,6 @@ class Gemmy extends StatelessWidget {
           cursorColor: Colors.white,
           selectionColor: Color(0xFF498BD5),
         ),
-      ),
-      home: const Scaffold(
-        body: Entry(),
       ),
     );
   }

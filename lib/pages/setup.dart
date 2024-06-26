@@ -73,7 +73,7 @@ class _SetupPageState extends State<SetupPage> {
                             ),
                           );
 
-                          Navigator.of(context).pushReplacementNamed('/');
+                          Navigator.of(context).pushReplacementNamed('/home');
                         } catch (_) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
