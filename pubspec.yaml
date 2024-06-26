@@ -10,8 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  url_launcher: ^6.3.0
   shared_preferences: ^2.2.3
+  google_generative_ai: ^0.4.3
 
 dev_dependencies:
   flutter_test:
