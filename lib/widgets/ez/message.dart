@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,8 +46,32 @@ class EzMessage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              EzText(message.role == 'assistant' ? 'Gemini' : 'You',
-                  fontSize: 20, bold: true),
+              Row(
+                children: [
+                  EzText(
+                    message.role == 'assistant' ? 'Gemini' : 'You',
+                    fontSize: 20,
+                    bold: true,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: IconButton(
+                      onPressed: () {
+                        Clipboard.setData(ClipboardData(text: message.content));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: EzText('Copied to clipboard!')),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.copy,
+                        size: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               message.content.trim().isEmpty
                   ? const EzText(
                       'Generating...',
@@ -61,12 +86,22 @@ class EzMessage extends StatelessWidget {
                           fontSize: 20.0,
                           color: Colors.white,
                         ),
+                        code: const TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.white,
+                          backgroundColor: Colors.black,
+                          fontFamily: 'monospace',
+                        ),
+                        codeblockDecoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
                       extensionSet: md.ExtensionSet(
                         md.ExtensionSet.gitHubFlavored.blockSyntaxes,
                         <md.InlineSyntax>[
                           md.EmojiSyntax(),
-                          ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes
+                          ...md.ExtensionSet.gitHubFlavored.inlineSyntaxes,
                         ],
                       ),
                     )
