@@ -6,10 +6,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gemmy/types/message.dart';
 import 'package:gemmy/widgets/ez/text.dart';
 
+typedef RegenerateCallback = Future<void> Function();
+
 class EzMessage extends StatelessWidget {
-  const EzMessage({super.key, required this.message});
+  const EzMessage({
+    super.key,
+    required this.message,
+    required this.regenerateCallback,
+  });
 
   final Message message;
+  final RegenerateCallback? regenerateCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +102,8 @@ class EzMessage extends StatelessWidget {
                                   ClipboardData(text: message.content));
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: EzText('Copied to clipboard!')),
+                                  content: EzText('Copied to clipboard!'),
+                                ),
                               );
                             },
                             icon: const Icon(
@@ -104,6 +112,16 @@ class EzMessage extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
+                          regenerateCallback != null
+                              ? IconButton(
+                                  onPressed: regenerateCallback,
+                                  icon: const Icon(
+                                    Icons.refresh,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Container()
                         ],
                       ),
                     )

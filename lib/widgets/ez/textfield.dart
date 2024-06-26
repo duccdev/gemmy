@@ -95,7 +95,7 @@ class _EzTextFieldState extends State<EzTextField> {
                   padding: const EdgeInsets.all(4),
                   child: IconButton.filled(
                     icon: const Icon(
-                      Icons.arrow_upward,
+                      Icons.send,
                       color: Colors.white,
                       size: 24,
                     ),

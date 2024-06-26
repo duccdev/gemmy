@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ChatSession _chat = Globals.model!.startChat();
+  ChatSession _chat = Globals.model!.startChat();
   final List<Message> _msgs = List.empty(growable: true);
   bool _chatInputEnabled = true;
 
@@ -27,7 +27,43 @@ class _HomePageState extends State<HomePage> {
           Column(
             children: padWidgets(
               const EdgeInsets.only(bottom: 16),
-              _msgs.map((msg) => EzMessage(message: msg)).toList(),
+              _msgs
+                  .asMap()
+                  .entries
+                  .map((e) => EzMessage(
+                        message: e.value,
+                        regenerateCallback: e.key == (_msgs.length - 1)
+                            ? () async {
+                                setState(() {
+                                  _msgs.last.generating = true;
+                                  _chatInputEnabled = false;
+                                  _msgs.last.content = '';
+                                });
+
+                                List<Content> history = _chat.history.toList();
+                                history.removeLast();
+                                history.removeLast();
+
+                                _chat =
+                                    Globals.model!.startChat(history: history);
+                                final response = _chat.sendMessageStream(
+                                  Content.text(_msgs[_msgs.length - 2].content),
+                                );
+                                await for (final chunk in response) {
+                                  setState(() => _msgs.last.content =
+                                      _msgs.last.content.trim().isEmpty
+                                          ? chunk.text!
+                                          : _msgs.last.content + chunk.text!);
+                                }
+
+                                setState(() {
+                                  _msgs.last.generating = false;
+                                  _chatInputEnabled = true;
+                                });
+                              }
+                            : null,
+                      ))
+                  .toList(),
             ),
           ),
           Padding(
