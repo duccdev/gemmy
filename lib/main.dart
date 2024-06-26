@@ -17,8 +17,8 @@ class Gemmy extends StatelessWidget {
     return MaterialApp(
       title: 'Gemmy',
       routes: {
-        '/entry': (context) => const Entry(),
-        '/home': (context) => const HomePage(),
+        '/entry': (context) => const Scaffold(body: Entry()),
+        '/home': (context) => const Scaffold(body: HomePage()),
       },
       initialRoute: '/entry',
       theme: ThemeData(
