@@ -13,7 +13,9 @@ class SetupPage extends StatefulWidget {
 }
 
 class _SetupPageState extends State<SetupPage> {
-  bool _step2Disabled = true;
+  bool _step1Enabled = true;
+  bool _step2Enabled = false;
+  bool _step2Loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +29,23 @@ class _SetupPageState extends State<SetupPage> {
             SizedBox(
               width: 512,
               child: EzTextField(
+                enabled: _step1Enabled,
                 hintText: 'I\'m not looking!',
                 obscureText: true,
                 disableSubmitButton: true,
                 onChanged: (text) {
-                  if (text.trim().isEmpty) {
+                  text = text.trim();
+
+                  if (text.isEmpty) {
                     Globals.apiKey = null;
                     Globals.prefs.remove('apiKey');
+                    setState(() => _step2Enabled = false);
                     return;
                   }
 
-                  Globals.apiKey = text.trim();
+                  Globals.apiKey = text;
                   Globals.prefs.setString('apiKey', text);
+                  setState(() => _step2Enabled = true);
                 },
               ),
             ),
@@ -46,10 +53,29 @@ class _SetupPageState extends State<SetupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const EzText('Step 2: '),
-                EzButton(
-                    onPressed: _step2Disabled ? null : () {},
-                    child: EzText('Connect',
-                        color: _step2Disabled ? Colors.white54 : Colors.white)),
+                SizedBox(
+                  width: 150,
+                  child: EzButton(
+                    onPressed: _step2Enabled
+                        ? () => setState(() {
+                              _step1Enabled = false;
+                              _step2Enabled = false;
+                              _step2Loading = true;
+                            })
+                        : null,
+                    child: _step2Loading
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(),
+                          )
+                        : EzText(
+                            'Connect',
+                            color:
+                                _step2Enabled ? Colors.white : Colors.white54,
+                          ),
+                  ),
+                ),
               ],
             ),
           ],

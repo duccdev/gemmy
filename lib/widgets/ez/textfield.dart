@@ -12,6 +12,7 @@ class EzTextField extends StatefulWidget {
     this.hintText,
     this.obscureText,
     this.defaultValue,
+    this.enabled,
   });
 
   final OnSubmittedCallback? onSubmitted;
@@ -20,6 +21,7 @@ class EzTextField extends StatefulWidget {
   final String? hintText;
   final bool? obscureText;
   final String? defaultValue;
+  final bool? enabled;
 
   @override
   State<EzTextField> createState() => _EzTextFieldState();
@@ -72,6 +74,7 @@ class _EzTextFieldState extends State<EzTextField> {
     return SizedBox(
       height: 48,
       child: TextField(
+        enabled: widget.enabled,
         controller: _controller,
         style:
             const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
