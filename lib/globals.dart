@@ -1,5 +1,6 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:gemmy/constants.dart' as constants;
 
 class Globals {
   static String? apiKey;
@@ -18,6 +19,7 @@ class Globals {
       model = GenerativeModel(
         model: 'gemini-1.5-flash',
         apiKey: apiKey!,
+        systemInstruction: Content.system(constants.geminiSystemInstructions),
         safetySettings: [
           SafetySetting(HarmCategory.dangerousContent, HarmBlockThreshold.none),
           SafetySetting(HarmCategory.harassment, HarmBlockThreshold.none),
