@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gemmy/globals.dart';
 import 'package:gemmy/pages/home.dart';
+import 'package:gemmy/pages/settings.dart';
 import 'package:gemmy/pages/setup.dart';
 
 void main() async {
@@ -16,11 +17,22 @@ class Gemmy extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gemmy',
-      routes: {
-        '/entry': (context) => const Scaffold(body: Entry()),
-        '/home': (context) => const Scaffold(body: HomePage()),
-      },
       initialRoute: '/entry',
+      onGenerateRoute: (settings) {
+        const Map<String, Widget> routes = {
+          '/entry': Entry(),
+          '/home': HomePage(),
+          '/settings': SettingsPage(),
+        };
+
+        return !routes.containsKey(settings.name)
+            ? null
+            : PageRouteBuilder(
+                pageBuilder: (_, __, ___) => Scaffold(
+                  body: routes[settings.name]!,
+                ),
+              );
+      },
       theme: ThemeData(
         fontFamily: 'NotoSans',
         scaffoldBackgroundColor: const Color(0xFF131314),
@@ -33,6 +45,9 @@ class Gemmy extends StatelessWidget {
           radius: const Radius.circular(6),
           thumbColor: WidgetStateProperty.all(const Color(0xFF858585)),
           thickness: WidgetStateProperty.all(12),
+        ),
+        navigationRailTheme: const NavigationRailThemeData(
+          backgroundColor: Color(0xFF1E1F20),
         ),
       ),
     );
