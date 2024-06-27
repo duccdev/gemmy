@@ -14,6 +14,7 @@ class EzNavigationRail extends StatelessWidget {
     return NavigationRail(
       selectedIndex: selectedIndex,
       groupAlignment: -1,
+      labelType: NavigationRailLabelType.all,
       onDestinationSelected: (index) {
         switch (index) {
           case homeIndex:

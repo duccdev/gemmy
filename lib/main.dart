@@ -48,6 +48,9 @@ class Gemmy extends StatelessWidget {
         ),
         navigationRailTheme: const NavigationRailThemeData(
           backgroundColor: Color(0xFF1E1F20),
+          selectedIconTheme: IconThemeData(color: Colors.black),
+          unselectedIconTheme: IconThemeData(color: Colors.white),
+          indicatorColor: Colors.white,
         ),
       ),
     );
