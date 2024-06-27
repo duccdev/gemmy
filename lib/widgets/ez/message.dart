@@ -5,6 +5,7 @@ import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gemmy/types/message.dart';
 import 'package:gemmy/widgets/ez/text.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 typedef RegenerateCallback = Future<void> Function();
 
@@ -87,6 +88,11 @@ class EzMessage extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
+                      onTapLink: (_, href, __) async {
+                        if (href != null && await canLaunchUrlString(href)) {
+                          await launchUrlString(href);
+                        }
+                      },
                       extensionSet: md.ExtensionSet(
                         md.ExtensionSet.gitHubFlavored.blockSyntaxes,
                         <md.InlineSyntax>[
