@@ -18,7 +18,7 @@ class Gemmy extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gemmy',
-      home: const Scaffold(body: Entry()),
+      home: const Scaffold(body: Router()),
       theme: ThemeData(
         fontFamily: 'NotoSans',
         scaffoldBackgroundColor: const Color(0xFF131314),
@@ -43,14 +43,14 @@ class Gemmy extends StatelessWidget {
   }
 }
 
-class Entry extends StatefulWidget {
-  const Entry({super.key});
+class Router extends StatefulWidget {
+  const Router({super.key});
 
   @override
-  State<Entry> createState() => _EntryState();
+  State<Router> createState() => _RouterState();
 }
 
-class _EntryState extends State<Entry> {
+class _RouterState extends State<Router> {
   int _pageIndex = homeIndex;
 
   Widget _getPage() {
