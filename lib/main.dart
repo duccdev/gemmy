@@ -3,6 +3,7 @@ import 'package:gemmy/globals.dart';
 import 'package:gemmy/pages/home.dart';
 import 'package:gemmy/pages/settings.dart';
 import 'package:gemmy/pages/setup.dart';
+import 'package:gemmy/widgets/ez/navigationrail.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,22 +18,7 @@ class Gemmy extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gemmy',
-      initialRoute: '/entry',
-      onGenerateRoute: (settings) {
-        const Map<String, Widget> routes = {
-          '/entry': Entry(),
-          '/home': HomePage(),
-          '/settings': SettingsPage(),
-        };
-
-        return !routes.containsKey(settings.name)
-            ? null
-            : PageRouteBuilder(
-                pageBuilder: (_, __, ___) => Scaffold(
-                  body: routes[settings.name]!,
-                ),
-              );
-      },
+      home: const Scaffold(body: Entry()),
       theme: ThemeData(
         fontFamily: 'NotoSans',
         scaffoldBackgroundColor: const Color(0xFF131314),
@@ -57,11 +43,42 @@ class Gemmy extends StatelessWidget {
   }
 }
 
-class Entry extends StatelessWidget {
+class Entry extends StatefulWidget {
   const Entry({super.key});
 
   @override
+  State<Entry> createState() => _EntryState();
+}
+
+class _EntryState extends State<Entry> {
+  int _pageIndex = homeIndex;
+
+  Widget _getPage() {
+    switch (_pageIndex) {
+      case homeIndex:
+        return const HomePage();
+      case settingsIndex:
+        return const SettingsPage();
+      default:
+        throw UnimplementedError();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Globals.apiKey != null ? const HomePage() : const SetupPage();
+    if (Globals.apiKey == null) return const SetupPage();
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: EzNavigationRail(
+            selectedIndex: _pageIndex,
+            onDestinationSelected: (index) =>
+                setState(() => _pageIndex = index),
+          ),
+        ),
+        Expanded(child: _getPage()),
+      ],
+    );
   }
 }
