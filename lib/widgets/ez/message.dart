@@ -60,32 +60,67 @@ class EzMessage extends StatelessWidget {
                 bold: true,
               ),
               message.content.trim().isEmpty
-                  ? const EzText(
-                      'Generating...',
-                      color: Colors.blue,
-                      fontSize: 20,
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 4),
+                      child: SizedBox(
+                        width: 256,
+                        child: LinearProgressIndicator(
+                          color: Colors.blue,
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ),
                     )
                   : MarkdownBody(
                       selectable: true,
                       data: message.content.trim(),
                       styleSheet: MarkdownStyleSheet(
                         p: const TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                        h1: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        h2: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        h3: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        h4: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        h5: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        h6: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                         code: const TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 16,
                           color: Colors.white,
                           backgroundColor: Colors.black,
                           fontFamily: 'monospace',
                         ),
+                        listBullet: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
                         codeblockDecoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(8),
-                        ),
-                        listBullet: const TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.white,
                         ),
                       ),
                       onTapLink: (_, href, __) async {
